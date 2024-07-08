@@ -72,8 +72,6 @@ Apaixonado por tecnologia, com carreira com mais de 15 anos de experiÃªncia na Ã
 
 ###
 
-<br clear="both">
-
-<img src="https://raw.githubusercontent.com/antoni0neto/antoni0neto/output/snake.svg" alt="Snake animation" />
+![GitHub Snake](https://github.com/antoni0neto/antoni0neto/blob/output/github-contribution-grid-snake.svg)
 
 ###
