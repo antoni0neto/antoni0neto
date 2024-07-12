@@ -1,4 +1,4 @@
-<h2 align="left">Olá! Eu sou o Antônio neto! 🖐🏻</h2>
+<h2 align="left">Olá, eu sou o Antônio Neto, um desenvolvedor full stack apaixonado pelo que faz! 🖐🏻</h2>
 
 ###
 
