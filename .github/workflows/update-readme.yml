@@ -12,40 +12,49 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Generate GitHub Stats and Languages
+      - name: Generate GitHub Stats
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          # Generate URLs for GitHub stats and languages
-          STATS_URL="https://github-readme-stats.vercel.app/api?username=antoni0neto&count_private=true&show_icons=true&theme=radical&include_all_commits=true"
-          LANGS_URL="https://github-readme-stats.vercel.app/api/top-langs/?username=antoni0neto&count_private=true&layout=compact&theme=radical&langs_count=10"
+          curl -o stats_card.svg "https://github-readme-stats.vercel.app/api?username=antoni0neto&count_private=true&show_icons=true&theme=radical&include_all_commits=true"
+          curl -o langs_card.svg "https://github-readme-stats.vercel.app/api/top-langs/?username=antoni0neto&count_private=true&layout=compact&theme=radical"
+
+      - name: Update README
+        run: |
+          # Remove previous cards from README.md
+          sed -i '/<!--START_SECTION:stats-->/, /<!--END_SECTION:stats-->/d' README.md
+          sed -i '/<!--START_SECTION:langs-->/, /<!--END_SECTION:langs-->/d' README.md
           
-          # Create HTML to display both cards side by side
-          echo "<div style=\"display: flex; justify-content: space-between;\">" > temp_readme.md
-          echo "  <div style=\"flex: 1; margin-right: 10px;\">" >> temp_readme.md
-          echo "    <a href=\"https://github.com/anuraghazra/github-readme-stats\">" >> temp_readme.md
-          echo "      <img src=\"$STATS_URL\" alt=\"GitHub stats\" />" >> temp_readme.md
-          echo "    </a>" >> temp_readme.md
-          echo "  </div>" >> temp_readme.md
-          echo "  <div style=\"flex: 1; margin-left: 10px;\">" >> temp_readme.md
-          echo "    <a href=\"https://github.com/anuraghazra/github-readme-stats\">" >> temp_readme.md
-          echo "      <img src=\"$LANGS_URL\" alt=\"Top Langs\" />" >> temp_readme.md
-          echo "    </a>" >> temp_readme.md
-          echo "  </div>" >> temp_readme.md
-          echo "</div>" >> temp_readme.md
-
-      - name: Replace README.md with Updated Content
-        run: |
-          cat temp_readme.md > README.md
-          rm temp_readme.md
+          # Add new cards
+          echo '<!--START_SECTION:stats-->' >> README.md
+          echo '<div style="display: flex; justify-content: space-between;">' >> README.md
+          echo '  <div style="flex: 1; margin-right: 10px;">' >> README.md
+          echo '    <img src="stats_card.svg" alt="GitHub stats" />' >> README.md
+          echo '  </div>' >> README.md
+          echo '  <div style="flex: 1; margin-left: 10px;">' >> README.md
+          echo '    <img src="langs_card.svg" alt="Top Langs" />' >> README.md
+          echo '  </div>' >> README.md
+          echo '</div>' >> README.md
+          echo '<!--END_SECTION:stats-->' >> README.md
+          
+          # Other sections of README.md
+          sed -i '/<!--START_SECTION:langs-->/, /<!--END_SECTION:langs-->/d' README.md
+          echo '<!--START_SECTION:langs-->' >> README.md
+          echo '<div style="display: flex; justify-content: space-between;">' >> README.md
+          echo '  <div style="flex: 1; margin-right: 10px;">' >> README.md
+          echo '    <img src="langs_card.svg" alt="Top Langs" />' >> README.md
+          echo '  </div>' >> README.md
+          echo '</div>' >> README.md
+          echo '<!--END_SECTION:langs-->' >> README.md
 
       - name: Commit and Push if Changed
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add README.md
-          git diff-index --quiet HEAD || git commit -m "Update GitHub stats and languages"
+          git commit -m "Update GitHub stats and languages"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
