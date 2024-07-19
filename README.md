@@ -1,5 +1,8 @@
 <h2 align="left">Olá, eu sou o Antônio Neto, um desenvolvedor full stack apaixonado pelo que faz! 🖐🏻</h2>
 
+[![Blog](https://img.shields.io/website-up-down-green-red/http/monip.org.svg)](https://antonioneto.dev.br)
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/antoni0neto)
+
 ## Tecnologias que atuo
 
 <div align="left">
@@ -51,11 +54,6 @@
   <img width="12" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" height="30" alt="bootstrap logo" />
 </div>
-
-## Onde me encontrar
-
-[![Blog](https://img.shields.io/website-up-down-green-red/http/monip.org.svg)](https://antonioneto.dev.br)
-[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/antoni0neto)
 
 ## Uma breve descrição sobre minha carreira
 
