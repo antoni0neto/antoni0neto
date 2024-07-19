@@ -26,6 +26,10 @@ jobs:
           # Ensure we have a README.md file
           [ -f README.md ] || touch README.md
 
+          # Configure Git
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions[bot]"
+
           # Update the stats card section
           if grep -q '<!--START_SECTION:stats-->' README.md; then
             sed -i '/<!--START_SECTION:stats-->/, /<!--END_SECTION:stats-->/d' README.md
