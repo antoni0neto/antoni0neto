@@ -10,3 +10,20 @@
     </a>
   </div>
 </div>
+<!--START_SECTION:stats-->
+<div style="display: flex; justify-content: space-between;">
+  <div style="flex: 1; margin-right: 10px;">
+    <img src="stats_card.svg" alt="GitHub stats" />
+  </div>
+  <div style="flex: 1; margin-left: 10px;">
+    <img src="langs_card.svg" alt="Top Langs" />
+  </div>
+</div>
+<!--END_SECTION:stats-->
+<!--START_SECTION:langs-->
+<div style="display: flex; justify-content: space-between;">
+  <div style="flex: 1; margin-right: 10px;">
+    <img src="langs_card.svg" alt="Top Langs" />
+  </div>
+</div>
+<!--END_SECTION:langs-->
