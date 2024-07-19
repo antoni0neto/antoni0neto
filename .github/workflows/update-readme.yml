@@ -30,6 +30,9 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions[bot]"
 
+          # Add the new SVG files
+          git add stats_card.svg langs_card.svg
+
           # Update the stats card section
           if grep -q '<!--START_SECTION:stats-->' README.md; then
             sed -i '/<!--START_SECTION:stats-->/, /<!--END_SECTION:stats-->/d' README.md
@@ -45,9 +48,15 @@ jobs:
           echo '</div>' >> README.md
           echo '<!--END_SECTION:stats-->' >> README.md
 
-          # Ensure all other content is not affected
+          # Add the updated README.md
           git add README.md
-          git commit -m "Update GitHub stats and languages"
-          git push
+
+          # Check for changes and commit if there are any
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Update GitHub stats and languages"
+            git push
+          else
+            echo "No changes detected, skipping commit."
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
