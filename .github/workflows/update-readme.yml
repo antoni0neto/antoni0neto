@@ -15,28 +15,26 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Generate GitHub Stats
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           curl -o stats_card.svg "https://github-readme-stats.vercel.app/api?username=antoni0neto&count_private=true&show_icons=true&theme=radical&include_all_commits=true"
           curl -o langs_card.svg "https://github-readme-stats.vercel.app/api/top-langs/?username=antoni0neto&count_private=true&layout=compact&theme=radical"
 
       - name: Update README
         run: |
-          # Ensure we have a README.md file
-          [ -f README.md ] || touch README.md
-
           # Configure Git
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions[bot]"
 
-          # Add the new SVG files
-          git add stats_card.svg langs_card.svg
+          # Ensure we have a README.md file
+          [ -f README.md ] || touch README.md
 
-          # Update the stats card section
+          # Update README.md with new stats and languages
           if grep -q '<!--START_SECTION:stats-->' README.md; then
+            # Update existing stats section
             sed -i '/<!--START_SECTION:stats-->/, /<!--END_SECTION:stats-->/d' README.md
           fi
+
+          # Insert the new stats section
           echo '<!--START_SECTION:stats-->' >> README.md
           echo '<div style="display: flex; justify-content: space-between;">' >> README.md
           echo '  <div style="flex: 1; margin-right: 10px;">' >> README.md
@@ -48,10 +46,10 @@ jobs:
           echo '</div>' >> README.md
           echo '<!--END_SECTION:stats-->' >> README.md
 
-          # Add the updated README.md
-          git add README.md
+          # Stage changes
+          git add README.md stats_card.svg langs_card.svg
 
-          # Check for changes and commit if there are any
+          # Commit and push changes
           if [ -n "$(git status --porcelain)" ]; then
             git commit -m "Update GitHub stats and languages"
             git push
