@@ -83,3 +83,13 @@ Apaixonado por tecnologia, com carreira com mais de 15 anos de experiÃªncia na Ã
 <br clear="both">
 
 <img src="https://raw.githubusercontent.com/antoni0neto/antoni0neto/output/snake.svg" alt="Snake animation" />
+<!--START_SECTION:stats-->
+<div style="display: flex; justify-content: space-between;">
+  <div style="flex: 1; margin-right: 10px;">
+    <img src="stats_card.svg" alt="GitHub stats" />
+  </div>
+  <div style="flex: 1; margin-left: 10px;">
+    <img src="langs_card.svg" alt="Top Langs" />
+  </div>
+</div>
+<!--END_SECTION:stats-->
