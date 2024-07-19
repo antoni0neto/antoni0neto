@@ -23,11 +23,13 @@ jobs:
 
       - name: Update README
         run: |
-          # Remove previous cards from README.md
-          sed -i '/<!--START_SECTION:stats-->/, /<!--END_SECTION:stats-->/d' README.md
-          sed -i '/<!--START_SECTION:langs-->/, /<!--END_SECTION:langs-->/d' README.md
-          
-          # Add new cards
+          # Ensure we have a README.md file
+          [ -f README.md ] || touch README.md
+
+          # Update the stats card section
+          if grep -q '<!--START_SECTION:stats-->' README.md; then
+            sed -i '/<!--START_SECTION:stats-->/, /<!--END_SECTION:stats-->/d' README.md
+          fi
           echo '<!--START_SECTION:stats-->' >> README.md
           echo '<div style="display: flex; justify-content: space-between;">' >> README.md
           echo '  <div style="flex: 1; margin-right: 10px;">' >> README.md
@@ -38,21 +40,8 @@ jobs:
           echo '  </div>' >> README.md
           echo '</div>' >> README.md
           echo '<!--END_SECTION:stats-->' >> README.md
-          
-          # Other sections of README.md
-          sed -i '/<!--START_SECTION:langs-->/, /<!--END_SECTION:langs-->/d' README.md
-          echo '<!--START_SECTION:langs-->' >> README.md
-          echo '<div style="display: flex; justify-content: space-between;">' >> README.md
-          echo '  <div style="flex: 1; margin-right: 10px;">' >> README.md
-          echo '    <img src="langs_card.svg" alt="Top Langs" />' >> README.md
-          echo '  </div>' >> README.md
-          echo '</div>' >> README.md
-          echo '<!--END_SECTION:langs-->' >> README.md
 
-      - name: Commit and Push if Changed
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          # Ensure all other content is not affected
           git add README.md
           git commit -m "Update GitHub stats and languages"
           git push
