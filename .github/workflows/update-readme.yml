@@ -13,17 +13,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Generate GitHub Stats
+      - name: Generate GitHub Stats and Languages
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          curl -o README.md "https://github-readme-stats.vercel.app/api?username=YOUR_GITHUB_USERNAME&count_private=true&show_icons=true&theme=radical"
+          # Generate GitHub stats and top languages cards
+          STATS_URL="https://github-readme-stats.vercel.app/api?username=${{ github.repository_owner }}&count_private=true&show_icons=true&theme=radical"
+          LANGS_URL="https://github-readme-stats.vercel.app/api/top-langs/?username=${{ github.repository_owner }}&count_private=true&layout=compact&theme=radical"
+          
+          # Create HTML to display both cards side by side
+          cat <<EOT > README.md
+<div style="display: flex; justify-content: space-between;">
+  <div style="flex: 1; margin-right: 10px;">
+    <a href="https://github.com/anuraghazra/github-readme-stats">
+      <img src="${STATS_URL}" alt="GitHub stats" />
+    </a>
+  </div>
+  <div style="flex: 1; margin-left: 10px;">
+    <a href="https://github.com/anuraghazra/github-readme-stats">
+      <img src="${LANGS_URL}" alt="Top Langs" />
+    </a>
+  </div>
+</div>
+EOT
       - name: Commit and Push if Changed
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add README.md
-          git commit -m "Update GitHub stats"
+          git commit -m "Update GitHub stats and languages"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
